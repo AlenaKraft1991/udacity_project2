@@ -4,12 +4,14 @@
 let cardsArray = ['fa fa-anchor', 'fa fa-anchor', 'fa fa-bicycle', 'fa fa-bolt', 'fa fa-cube', 'fa fa-diamond', 'fa fa-diamond', 'fa fa-plane', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-bolt', 'fa fa-bicycle', 'fa fa-plane', 'fa fa-cube'];
 const allCards = document.querySelectorAll('.card');
 let deck = document.querySelectorAll('.deck');
-// let openCards = [];
+let allstars = document.querySelectorAll('.stars');
 let openCards = 0;
-// let pickedcard = []; //empty variable, no cards at the beginning - helps to identify a card is already picked 
 let nbofclicks = 0;
 let currenttime = document.querySelector('.shownTime');
 let gameInterval;
+// Define winning text
+let wintext = document.createElement('section');
+wintext.textContent = 'Great job! Play again?';
 
 // shuffles the cards in the console 
 shuffle(cardsArray);
@@ -44,9 +46,7 @@ function shuffle(array) {
 }
 
 
-/*
- * Timer function
- */
+// Timer Function
 function timer() {
     let minutes = 0;
     let seconds = 0;
@@ -64,39 +64,43 @@ function timer() {
     }, 1000);
 }
 
-/*
- * Restart function
- */
-document.querySelector('.restart').addEventListener('click', function () {
-    // console.log('restart click');
-    // Stop timer
-    clearInterval(gameInterval);
-    currenttime.innerHTML = '00:00';
-    // Karten umdrehen
-    for (let c of allCards) {
-        c.classList.remove('match', 'show', 'open');
-    }
+
+
+//   Restart function
+function restart(){
+    //Reset stars to grey 
+    document.getElementsByClassName('fa fa-star')[2].style.color='gold';
+    document.getElementsByClassName('fa fa-star')[1].style.color='gold'; 
+    document.getElementsByClassName('fa fa-star')[0].style.color='gold'; 
+
     // Mover and number of clicks
     nbofclicks = 0;
     document.getElementById("moves").textContent = nbofclicks;
+
+    //Set Time to Zero
+    clearInterval(gameInterval);
+    currenttime.innerHTML = '00:00';
+
+    // turn cards black
+    for (let c of allCards) {
+        c.classList.remove('match', 'show', 'open', 'none');
+    }
+    
     //Shuffle
     shuffle(cardsArray);
     for (let i = 0; i < 16; i++) {
         document.getElementsByClassName("card")[i].firstElementChild.className = cardsArray[i];
         // Set all cards black
-        allCards.forEach(function (card) {
-            card.classList.remove('open', 'show', 'none');
-        });
-    }
-});
+        // allCards.forEach(function (card) {
+        //     card.classList.remove('open', 'show', 'none');
+        // });
+    }  
+}
 
-/*
- * ShowScore function
- */
+
+ /* ShowScore function*/
 function showScore() {
     // document.getElementsByClassName('score-panel').classList.add('win'); 
-    let wintext = document.createElement('section');
-    wintext.textContent = 'Great job! Play again?';
     document.getElementsByClassName('score-panel')[0].appendChild(wintext);
     // addding CSS von class win
     document.getElementsByClassName('score-panel')[0].classList.add('win');
@@ -108,24 +112,23 @@ function showScore() {
     document.querySelector('.restart').addEventListener('click', function () {
         console.log('restart click');
         shuffle(cardsArray);
-        for (let i = 0; i < 16; i++) {
-            document.getElementsByClassName("card")[i].firstElementChild.className = cardsArray[i];
-            // Set all cards black
-            allCards.forEach(function (card) {
-                card.classList.remove('open', 'show', 'none');
-            });
-        }
+        document.getElementsByClassName('score-panel')[0].classList.remove('win');
+        // removing deck with class none 
+        document.getElementsByClassName('deck')[0].classList.remove('none');
+        document.getElementsByClassName('score-panel')[0].removeChild(wintext);
+        
     })
-    // allCards.forEach(function (deck) {
-    //     deck.classList.add('none');
-    // });
-
-    //    document.getElementsByClassName('deck')[0].classList.add('none'); 
-    // var newContent = document.createTextNode('Score: ' + nbofclicks + ' Time' + currenttime.innerHTML); 
-    //    scoreelement.appendChild(newContent); 
-    //    document.body.insertBefore(scoreelement,document.getElementById('container')); 
 }
 
+
+//restartgame at beginning
+restart();
+
+// Function for Restart BUtton
+document.querySelector('.restart').addEventListener('click', function () {
+    restart();
+    // console.log('restart click');
+});
 /*
  * Logic of game 
  */
@@ -179,13 +182,13 @@ allCards.forEach(function (card) {
         }
         // Based on number of clicks - change color of stars
         if (nbofclicks == 26) {
-            document.getElementsByClassName('fa fa-star')[2].style.color = 'grey';
+            document.getElementsByClassName('fa fa-star')[2].style.color='grey'; 
         }
         if (nbofclicks == 36) {
-            document.getElementsByClassName('fa fa-star')[1].style.color = 'grey';
+            document.getElementsByClassName('fa fa-star')[1].style.color='grey'; 
         }
         if (nbofclicks == 42) {
-            document.getElementsByClassName('fa fa-star')[0].style.color = 'grey';
+            document.getElementsByClassName('fa fa-star')[0].style.color='grey'; 
         }
         // Moves
         console.log(document.getElementById("moves").textContent);
