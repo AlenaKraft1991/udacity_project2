@@ -1,6 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
+//Variables
 let cardsArray = ['fa fa-anchor', 'fa fa-anchor', 'fa fa-bicycle', 'fa fa-bolt', 'fa fa-cube', 'fa fa-diamond', 'fa fa-diamond', 'fa fa-plane', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-bolt', 'fa fa-bicycle', 'fa fa-plane', 'fa fa-cube'];
 const allCards = document.querySelectorAll('.card');
 let deck = document.querySelectorAll('.deck');
@@ -65,13 +63,12 @@ function timer() {
 }
 
 
-
 //   Restart function
-function restart(){
+function restart() {
     //Reset stars to grey 
-    document.getElementsByClassName('fa fa-star')[2].style.color='gold';
-    document.getElementsByClassName('fa fa-star')[1].style.color='gold'; 
-    document.getElementsByClassName('fa fa-star')[0].style.color='gold'; 
+    document.getElementsByClassName('fa fa-star')[2].style.color = 'gold';
+    document.getElementsByClassName('fa fa-star')[1].style.color = 'gold';
+    document.getElementsByClassName('fa fa-star')[0].style.color = 'gold';
 
     // Mover and number of clicks
     nbofclicks = 0;
@@ -85,20 +82,17 @@ function restart(){
     for (let c of allCards) {
         c.classList.remove('match', 'show', 'open', 'none');
     }
-    
+
     //Shuffle
     shuffle(cardsArray);
     for (let i = 0; i < 16; i++) {
         document.getElementsByClassName("card")[i].firstElementChild.className = cardsArray[i];
-        // Set all cards black
-        // allCards.forEach(function (card) {
-        //     card.classList.remove('open', 'show', 'none');
-        // });
-    }  
+
+    }
 }
 
 
- /* ShowScore function*/
+/* ShowScore function*/
 function showScore() {
     // document.getElementsByClassName('score-panel').classList.add('win'); 
     document.getElementsByClassName('score-panel')[0].appendChild(wintext);
@@ -106,9 +100,7 @@ function showScore() {
     document.getElementsByClassName('score-panel')[0].classList.add('win');
     // removing deck with class none 
     document.getElementsByClassName('deck')[0].classList.add('none');
-
-
-    // when clicking on restart, play again???
+    // when clicking on restart, play again
     document.querySelector('.restart').addEventListener('click', function () {
         console.log('restart click');
         shuffle(cardsArray);
@@ -116,7 +108,6 @@ function showScore() {
         // removing deck with class none 
         document.getElementsByClassName('deck')[0].classList.remove('none');
         document.getElementsByClassName('score-panel')[0].removeChild(wintext);
-        
     })
 }
 
@@ -134,8 +125,6 @@ document.querySelector('.restart').addEventListener('click', function () {
  */
 allCards.forEach(function (card) {
     card.addEventListener('click', function (e) {
-        // wenn zwei oder mehr Karten offen sind und man klickt nochmal dann startet if...
-        // if nimmt alle Karten und wenn die Karte nicht die Klasse match hat, dann wird shown, open auch entfernt --> werden wieder schwarz
         if (openCards >= 2) {
             for (let c of allCards) {
                 if (!c.classList.contains('match')) { // for all cards that are not green (not match)
@@ -171,8 +160,6 @@ allCards.forEach(function (card) {
             openCards++;
             card.classList.add('open', 'show');
         }
-        // console.log('openCards', openCards);
-
 
 
         // Start timer by first click
@@ -182,13 +169,13 @@ allCards.forEach(function (card) {
         }
         // Based on number of clicks - change color of stars
         if (nbofclicks == 26) {
-            document.getElementsByClassName('fa fa-star')[2].style.color='grey'; 
+            document.getElementsByClassName('fa fa-star')[2].style.color = 'grey';
         }
         if (nbofclicks == 36) {
-            document.getElementsByClassName('fa fa-star')[1].style.color='grey'; 
+            document.getElementsByClassName('fa fa-star')[1].style.color = 'grey';
         }
         if (nbofclicks == 42) {
-            document.getElementsByClassName('fa fa-star')[0].style.color='grey'; 
+            document.getElementsByClassName('fa fa-star')[0].style.color = 'grey';
         }
         // Moves
         console.log(document.getElementById("moves").textContent);
